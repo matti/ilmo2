@@ -13,12 +13,15 @@ class User < ActiveRecord::Base
   # paperclip plugin
   has_attached_file :avatar, :default_url => '/images/user_avatars/missing.jpg'
   
-  
+  has_many :registrations
+  has_many :exercise_groups, :through => :registrations
+  has_many  :course_instances, :through => :registrations, :conditions => ['event_users.active = ?',true]
   
   attr_accessor :password, :password_confirmation
 
 
   before_save :hash_password, :downcase_username
+  after_create :publish_create_on_newsfeed
   
   def self.authenticate(username, password)
     user = User.find_by_username(username)
@@ -39,6 +42,10 @@ class User < ActiveRecord::Base
   end
   
   private
+  
+  def publish_create_on_newsfeed
+    Newsfeed.user_account_created(self)
+  end
   
   def hash_password
     return if self.password.blank?

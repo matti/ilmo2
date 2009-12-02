@@ -1,0 +1,10 @@
+<div id="newsfeed">
+	<% @newsfeed_items.each do |item| %>
+
+		<p><%= format_newsfeed_item(item) %></p>
+			
+		<p><%= time_ago_in_words(item.created_at) %> ago</p>
+		<hr/>
+	<% end %>
+</div>
+

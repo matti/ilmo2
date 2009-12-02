@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091202152158) do
+ActiveRecord::Schema.define(:version => 20091202170843) do
 
   create_table "course_instances", :force => true do |t|
     t.integer  "course_id"
@@ -28,6 +28,23 @@ ActiveRecord::Schema.define(:version => 20091202152158) do
   create_table "exercise_groups", :force => true do |t|
     t.integer  "course_instance_id"
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "newsfeeds", :force => true do |t|
+    t.string   "message_prefix"
+    t.string   "message_suffix"
+    t.string   "link_to_sentence"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "registrations", :force => true do |t|
+    t.integer  "user_id",           :null => false
+    t.integer  "exercise_group_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

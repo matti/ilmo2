@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.all
+    @newsfeed_items = Newsfeed.latest(5)
     
     respond_to do |format|
       format.html
