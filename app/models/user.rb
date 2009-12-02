@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   
   validates_length_of :student_number, :is => 9, :allow_blank => true
   
+  # paperclip plugin
+  has_attached_file :avatar, :default_url => '/images/user_avatars/missing.jpg'
+  
+  
   
   attr_accessor :password, :password_confirmation
 
