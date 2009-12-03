@@ -5,12 +5,20 @@ class Admin::MailerController < AdminController
   end
 
   def create
-    message_subject = params[:subject]
-    message_body = params[:body]
     
     exercise_group = ExerciseGroup.find(params[:exercise_group_id])
+  
+    message_subject = params[:subject]
+    message_body = params[:body]
+  
+    flash[:mailed_to] = []
     exercise_group.users.each do |user|
-      UserMailer.deliver_message(user, message_subject, message_body) if user.email
+      if user.email
+        UserMailer.deliver_message(user, message_subject, message_body)
+        flash[:mailed_to] << user.email
+      end
     end
+    
+    redirect_to :action => :show
   end
 end

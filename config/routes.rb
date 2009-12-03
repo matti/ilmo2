@@ -12,6 +12,11 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
+  map.resource :newsfeed, :controller => "newsfeed"
+  
+  map.resources :exercise_groups
+  
+  
   map.namespace(:admin) do |admin|
     admin.resources :users, :active_scaffold => true
     admin.resources :courses, :active_scaffold => true

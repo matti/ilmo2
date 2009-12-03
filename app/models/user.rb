@@ -4,20 +4,27 @@ class User < ActiveRecord::Base
   validates_length_of :username, :in => 3..15
   validates_length_of :name, :in => 3..50, :allow_blank => true
   
+  
   validates_length_of :password, :in => 5..30, :allow_blank => true, :on => :update
   validates_length_of :password, :in => 5..30, :on => :create
   validates_confirmation_of :password
   
+  attr_accessor :password, :password_confirmation
+  
+  
   validates_length_of :student_number, :is => 9, :allow_blank => true
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :allow_blank => true
+  
   
   # paperclip plugin
   has_attached_file :avatar, :default_url => '/images/user_avatars/missing.jpg'
   
   has_many :registrations
   has_many :exercise_groups, :through => :registrations
-  has_many  :course_instances, :through => :registrations, :conditions => ['event_users.active = ?',true]
+  has_many  :course_instances, :through => :registrations
   
-  attr_accessor :password, :password_confirmation
+  has_many :rights
+  has_many :roles, :through => :rights
 
 
   before_save :hash_password, :downcase_username

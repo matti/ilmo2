@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   before_filter :is_authenticated?
 
   before_filter :set_locale
-
+  before_filter :newsfeed_available_all_the_time
+  
   protected
   
   def is_authenticated?
@@ -31,4 +32,7 @@ class ApplicationController < ActionController::Base
     I18n.locale = session[:locale]
   end
   
+  def newsfeed_available_all_the_time
+    @newsfeed_items = Newsfeed.latest
+  end
 end

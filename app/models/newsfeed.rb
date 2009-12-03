@@ -1,7 +1,7 @@
 class Newsfeed < ActiveRecord::Base
   
   belongs_to :target, :polymorphic => true
-
+  validates_length_of :message_prefix, :in=>1..255
   
   default_scope :order=>"created_at DESC"
   
@@ -9,8 +9,8 @@ class Newsfeed < ActiveRecord::Base
     {:limit => amount}
   }
   
-  validates_length_of :message_prefix, :in=>1..255
   
+
 
   def self.course_created(course)
     create_message :prefix => "\"",
@@ -25,6 +25,12 @@ class Newsfeed < ActiveRecord::Base
   end
 
 
+  def self.user_registered_to_exercise_group(user, exercise_group)
+    create_message :prefix => "#{user.username} is attending ",
+                   :link => exercise_group.course_instance.course.name,
+                   :target => exercise_group
+  end
+  
   private
   
   def self.create_message(options)

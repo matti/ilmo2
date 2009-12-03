@@ -4,6 +4,7 @@ class Registration < ActiveRecord::Base
   
   validate :must_be_first_registration_for_this_instance
   
+  after_create :publish_registration_on_newsfeed
 
   protected
  
@@ -20,5 +21,12 @@ class Registration < ActiveRecord::Base
   #   errors.add(:exercise_group, "already registered in this instance") if already_in_these_course_instances.include? exercise_group.course_instance
   # end
 
+  
+  private
+  
+  def publish_registration_on_newsfeed
+    Newsfeed.user_registered_to_exercise_group(user, exercise_group)
+  end
+  
   
 end
