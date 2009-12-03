@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
   
   has_many :registrations
   has_many :exercise_groups, :through => :registrations
-  has_many  :course_instances, :through => :registrations
   
   has_many :rights
   has_many :roles, :through => :rights
