@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     if registration.save
       flash[:notice] = "Registration was successfull"
     else
-      flash[:error] = "You have already registered to this course instance"
+      flash[:error] = "You have already registered to this exercise group OR to this course instance"
     end
     
     redirect_to :back
